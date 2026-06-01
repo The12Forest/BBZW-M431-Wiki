@@ -6,7 +6,7 @@ import http from 'http';
 import { fileURLToPath } from 'url';
 import { Server } from 'socket.io';
 import { gameGroups, setupSocket } from './Backend/routes/ws/index.js';
-import log from './Backend/functions/log.js';
+import log from './Backend/function/log.js';
 const console = { log: log('InitRouter') };
 
 
@@ -22,14 +22,12 @@ const httpsPort = process.env.HTTPS_PORT || 443;
 app.use(express.json());
 
 // Routes
-import { router as gamingtimeRouter } from './Backend/routes/game/index.js';
 import { router as adminRouter } from './Backend/routes/admin/index.js';
 import { router as mainRouter } from './Backend/routes/main/index.js';
 import { router as gameRouter } from './Backend/routes/game/index.js';
 
 
 app.use("/api/game", gameRouter)
-app.use("/api/time", gamingtimeRouter)
 app.use("/api/admin", adminRouter)
 app.use("/api/main", mainRouter)
 //app.use("/api/task", tasksRouter)
@@ -50,7 +48,7 @@ app.use('/', express.static(path.join(__dirname, 'Frontend')));
 
 // Catch all
 app.use("", (req, res) => { res.redirect('/') })
-app.get("*", (req, res) => { res.redirect('/') });
+//app.get("*", (req, res) => { res.redirect('/') });
 
 // HTTP → HTTPS redirect
 /*
@@ -92,5 +90,5 @@ console.log = function (message, ...rest) {
 };
 */
 
-console.log('Outside Game Server started');
+console.log('Wiki Server started');
 export default app;

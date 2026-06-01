@@ -1,0 +1,34 @@
+{
+  "name": "bbzw-m431-wiki",
+  "version": "0.0.1",
+  "description": "This is a Wiki i made for my Minecraft Plugin, during my apprenticeship at Schindler!",
+  "keywords": [
+    "Wiki",
+    "OneBlock",
+    "Minecraft",
+    "Test"
+  ],
+  "homepage": "https://github.com/The12Forest/BBZW-M431-Wiki#readme",
+  "bugs": {
+    "url": "https://github.com/The12Forest/BBZW-M431-Wiki/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The12Forest/BBZW-M431-Wiki.git"
+  },
+  "license": "CC-BY-NC-SA-4.0",
+  "author": "The12Forest",
+  "type": "module",
+  "main": "init.js",
+  "scripts": {
+    "dev": "nodemon init.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  }
+}
