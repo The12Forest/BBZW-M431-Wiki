@@ -26,8 +26,8 @@ function setupSocket(io) {
             socket.groupId = groupId
             socket.playerId = playerId
 
-            console.log(logprefix + `Player ${playerId} joined ${gameId}/${groupId}`)
-            console.log(logprefix + `Game state:`, gameGroups[gameId])
+            console.log(`Player ${playerId} joined ${gameId}/${groupId}`)
+            console.log(`Game state:`, JSON.stringify(gameGroups[gameId]))
 
             io.to(`game-${gameId}-${groupId}`).emit('player-joined', {
                 playerId: playerId,

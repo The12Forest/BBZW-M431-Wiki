@@ -7,6 +7,6 @@ export default (label) => {
         const ts = new Date().toISOString().replace('T', ' ').slice(0, 23);
         const line = `${ts}    ${lbl} ${args.join(' ')}`;
         process.stdout.write(line + '\n');
-        fs.appendFileSync(`./LOG/LOG_${ts.slice(0, 10)}.log`, line + '\n');
+        try { fs.appendFileSync(`./LOG/LOG_${ts.slice(0, 10)}.log`, line + '\n'); } catch {}
     };
 };

@@ -1,162 +1,163 @@
 import { spawn } from 'child_process';
+import { readdirSync, rmSync } from 'fs';
 import path from 'path';
 import log from './../../function/log.js';
 
-const console = { log: log('MinecraftSocket') };
-let io_instance = null;
+const console = { log: log('MCServer') };
 
-// Konfiguration
-const MAX_SERVERS = 4;
-const START_PORT = 25565; // Server 1: 25565, Server 2: 25566, etc.
-const MINECRAFT_TIMEOUT_MS = 30 * 60 * 1000; // 30 Minuten
-const LOG_PREFIX = "[MC-Host] ";
+const START_PORT  = 25570;
+const END_PORT    = 25590;
+const MAX_SERVERS = END_PORT - START_PORT + 1;
+const TIMEOUT_MS  = 30 * 60 * 1000;
+const SERVER_DIR  = './Servers';
+const PUBLIC_IP   = process.env.PUBLIC_IP || 'wiki.wnw.li';
 
-// Hier speichern wir die aktiven Server
-// Struktur: { [gameId]: { process, timeoutId, port, playerId } }
-let activeServers = {};
+// { [sessionId]: { process, port, worldDir, ready, timeoutId, stopTimer } }
+const activeServers = {};
 
-function setupSocket(io) {
-    io_instance = io;
-
-    io.on('connection', (socket) => {
-
-        socket.on('join-game', (data) => {
-            const { gameId, playerId } = data;
-
-            socket.gameId = gameId;
-            socket.playerId = playerId;
-            socket.join(`game-${gameId}`);
-
-            // 1. Fall: Server für dieses Game läuft bereits
-            if (activeServers[gameId]) {
-                const currentPort = activeServers[gameId].port;
-                socket.emit('mc-log', `--- Du wurdest mit dem laufenden Server verbunden (Port: ${currentPort}) ---`);
-                return;
-            }
-
-            // 2. Fall: Maximales Server-Limit erreicht
-            const currentServerCount = Object.keys(activeServers).length;
-            if (currentServerCount >= MAX_SERVERS) {
-                console.log(LOG_PREFIX + `Anfrage abgelehnt. Maximum von ${MAX_SERVERS} Servern erreicht.`);
-                socket.emit('mc-log', `[SYSTEM] Alle Server-Slots belegt (${MAX_SERVERS}/${MAX_SERVERS}). Bitte warte, bis ein Server frei wird.`);
-                return;
-            }
-
-            // 3. Fall: Freien Port finden (25565, 25566, 25567, 25568)
-            const assignedPort = findFreePort();
-            if (!assignedPort) {
-                socket.emit('mc-log', `[SYSTEM] Fehler: Kein freier Port verfügbar.`);
-                return;
-            }
-
-            console.log(LOG_PREFIX + `Starte Server für Game ${gameId} auf Port ${assignedPort}...`);
-            socket.emit('mc-log', `[SYSTEM] Server wird gestartet auf Port ${assignedPort}...`);
-
-            // Minecraft Server starten und den Port als Argument übergeben (--port)
-            // WICHTIG: Jeder Server sollte idealerweise in einem eigenen Unterordner oder mit separaten Welt-Ordnern laufen,
-            // wenn sie parallel existieren sollen. Hier nutzen wir einen gemeinsamen Ordner, übergeben aber den Port.
-            const minecraftProcess = spawn('java', [
-                '-Xmx2G', 
-                '-Xms2G', 
-                '-jar', 'server.jar', 
-                'nogui', 
-                '--port', assignedPort.toString() // Erzwingt den dynamischen Port
-            ], {
-                cwd: path.resolve('./minecraft-server-folder'), 
-            });
-
-            // Server im State registrieren
-            activeServers[gameId] = {
-                process: minecraftProcess,
-                timeoutId: null,
-                port: assignedPort,
-                playerId: playerId
-            };
-
-            // 30-Minuten-Timer starten
-            startServerTimeout(gameId);
-
-            // Realtime Logs an den Client senden
-            minecraftProcess.stdout.on('data', (data) => {
-                io.to(`game-${gameId}`).emit('mc-log', data.toString());
-            });
-
-            minecraftProcess.stderr.on('data', (data) => {
-                io.to(`game-${gameId}`).emit('mc-log', `[ERROR] ${data.toString()}`);
-            });
-
-            // Wenn der Server beendet wird (egal ob durch 'stop' oder Crash)
-            minecraftProcess.on('close', (code) => {
-                console.log(LOG_PREFIX + `Server für Game ${gameId} (Port ${assignedPort}) geschlossen. Code: ${code}`);
-                io.to(`game-${gameId}`).emit('mc-log', `--- Server gestoppt (Port: ${assignedPort}) ---`);
-                
-                if (activeServers[gameId]) {
-                    clearTimeout(activeServers[gameId].timeoutId);
-                    delete activeServers[gameId];
-                }
-            });
-        });
-
-        // Befehle aus dem Web-Interface an die MC-Konsole senden
-        socket.on('send-command', (command) => {
-            const serverInfo = activeServers[socket.gameId];
-            if (serverInfo && serverInfo.process) {
-                serverInfo.process.stdin.write(command + '\n');
-            }
-        });
-
-        // Tab geschlossen / Disconnect -> Server stoppen
-        socket.on('disconnect', () => {
-            if (socket.gameId && activeServers[socket.gameId]) {
-                console.log(LOG_PREFIX + `Spieler ${socket.playerId} hat den Tab geschlossen. Stoppe Server...`);
-                stopMinecraftServer(socket.gameId, "Client Disconnect");
-            }
-        });
-    });
+function findJar() {
+    try {
+        const files = readdirSync(path.resolve(SERVER_DIR));
+        return files.find(f => f === 'server.jar' || (f.startsWith('paper') && f.endsWith('.jar'))) || 'server.jar';
+    } catch { return 'server.jar'; }
 }
 
-// Hilfsfunktion: Findet den ersten freien Port im erlaubten Bereich
 function findFreePort() {
-    const usedPorts = Object.values(activeServers).map(s => s.port);
-    for (let i = 0; i < MAX_SERVERS; i++) {
-        const testPort = START_PORT + i;
-        if (!usedPorts.includes(testPort)) {
-            return testPort;
-        }
+    const used = new Set(Object.values(activeServers).map(s => s.port));
+    for (let p = START_PORT; p <= END_PORT; p++) {
+        if (!used.has(p)) return p;
     }
     return null;
 }
 
-// Minecraft Server sauber beenden
-function stopMinecraftServer(gameId, reason) {
-    const serverInfo = activeServers[gameId];
-    if (serverInfo && serverInfo.process) {
-        console.log(LOG_PREFIX + `Stoppe Server ${gameId} (Port ${serverInfo.port}). Grund: ${reason}`);
-        
-        if (serverInfo.timeoutId) clearTimeout(serverInfo.timeoutId);
+function gracefulStop(sessionId) {
+    const s = activeServers[sessionId];
+    if (!s) return;
+    clearTimeout(s.timeoutId);
+    clearTimeout(s.stopTimer);
+    s.timeoutId = null;
+    s.stopTimer = null;
+    try { s.process.stdin.write('stop\n'); } catch {}
+    setTimeout(() => {
+        if (activeServers[sessionId] === s) {
+            try { s.process.kill('SIGKILL'); } catch {}
+        }
+    }, 10000);
+}
 
-        // Befehl zum Speichern und Schließen senden
-        serverInfo.process.stdin.write('stop\n');
+function cancelStopTimer(sessionId) {
+    const s = activeServers[sessionId];
+    if (s?.stopTimer) { clearTimeout(s.stopTimer); s.stopTimer = null; }
+}
 
-        // Notfall-Kill, falls der Server hängt
-        setTimeout(() => {
-            if (activeServers[gameId]) {
-                console.log(LOG_PREFIX + `Server auf Port ${serverInfo.port} reagiert nicht. Erzwinge SIGKILL...`);
-                serverInfo.process.kill('SIGKILL');
-                delete activeServers[gameId];
+export function setupMcSocket(io) {
+    io.on('connection', socket => {
+
+        // ── Start (or re-attach to) a server ────────────────────────────
+        socket.on('start-mc-server', ({ sessionId }) => {
+            socket.sessionId = sessionId;
+            socket.join(`mc:${sessionId}`);
+
+            // Session already running — just re-attach
+            if (activeServers[sessionId]) {
+                cancelStopTimer(sessionId);
+                const { ready, port } = activeServers[sessionId];
+                socket.emit('mc-log', '--- Reconnected to running server ---');
+                if (ready) socket.emit('server-ready', { ip: PUBLIC_IP, port });
+                return;
             }
-        }, 10000);
-    }
+
+            if (Object.keys(activeServers).length >= MAX_SERVERS) {
+                socket.emit('server-error', `All ${MAX_SERVERS} slots are full. Try again later.`);
+                return;
+            }
+            const port = findFreePort();
+            if (!port) { socket.emit('server-error', 'No free port available.'); return; }
+
+            const jar      = findJar();
+            const worldDir = path.resolve(SERVER_DIR, 'worlds', sessionId);
+
+            console.log(`Starting session ${sessionId} on port ${port} (${jar})`);
+            socket.emit('mc-log', `[SYSTEM] Starting server on port ${port}...`);
+
+            const proc = spawn('java', [
+                '-Xmx2G', '-Xms512M',
+                '-Dlog4j2.contextSelector=org.apache.logging.log4j.core.selector.BasicContextSelector',
+                '-jar', jar, 'nogui',
+                '--port', String(port),
+                '--world-container', worldDir,
+            ], { cwd: path.resolve(SERVER_DIR) });
+
+            const entry = { process: proc, port, worldDir, ready: false, timeoutId: null, stopTimer: null };
+            activeServers[sessionId] = entry;
+
+            entry.timeoutId = setTimeout(() => {
+                io.to(`mc:${sessionId}`).emit('mc-log', '[SYSTEM] 30-minute limit reached. Shutting down...');
+                gracefulStop(sessionId);
+            }, TIMEOUT_MS);
+
+            function onLine(raw) {
+                const line = raw.trimEnd();
+                if (!line) return;
+                io.to(`mc:${sessionId}`).emit('mc-log', line);
+
+                if (!entry.ready && line.includes('Done (')) {
+                    entry.ready = true;
+                    io.to(`mc:${sessionId}`).emit('server-ready', { ip: PUBLIC_IP, port });
+                }
+
+                const join = line.match(/\]: (\w+)\[\/[\d.:]+\] logged in/)
+                          || line.match(/\]: (\w+) joined the game/);
+                if (join) {
+                    console.log(`Auto-opping ${join[1]}`);
+                    try { proc.stdin.write(`op ${join[1]}\n`); } catch {}
+                }
+            }
+
+            proc.stdout.on('data', d => d.toString().split('\n').forEach(onLine));
+            proc.stderr.on('data', d => d.toString().split('\n').forEach(onLine));
+
+            // Only clean up when the process actually exits
+            proc.on('close', code => {
+                console.log(`Session ${sessionId} closed (code ${code})`);
+                if (activeServers[sessionId] === entry) {
+                    clearTimeout(entry.timeoutId);
+                    clearTimeout(entry.stopTimer);
+                    try { rmSync(worldDir, { recursive: true, force: true }); } catch {}
+                    delete activeServers[sessionId];
+                }
+                io.to(`mc:${sessionId}`).emit('mc-log', '--- Server stopped ---');
+                io.to(`mc:${sessionId}`).emit('server-stopped');
+            });
+        });
+
+        // ── Rejoin an existing session (never starts a server) ───────────
+        socket.on('rejoin-session', ({ sessionId }) => {
+            const s = activeServers[sessionId];
+            if (!s) { socket.emit('server-stopped'); return; }
+            cancelStopTimer(sessionId);
+            socket.sessionId = sessionId;
+            socket.join(`mc:${sessionId}`);
+            socket.emit('mc-log', '--- Reconnected ---');
+            if (s.ready) socket.emit('server-ready', { ip: PUBLIC_IP, port: s.port });
+        });
+
+        // ── Explicit stop ────────────────────────────────────────────────
+        socket.on('stop-mc-server', () => {
+            if (socket.sessionId) gracefulStop(socket.sessionId);
+        });
+
+        // ── Disconnect: grace period before killing ──────────────────────
+        socket.on('disconnect', reason => {
+            const sid = socket.sessionId;
+            if (!sid || !activeServers[sid]) return;
+            // Explicit tab-close via beforeunload gets a short grace;
+            // transport drops (network blip) get 30s to reconnect.
+            const grace = reason === 'client namespace disconnect' ? 5000 : 30000;
+            activeServers[sid].stopTimer = setTimeout(() => {
+                const room = io.sockets.adapter.rooms.get(`mc:${sid}`);
+                if (!room || room.size === 0) gracefulStop(sid);
+            }, grace);
+        });
+    });
 }
-
-// 30-Minuten-Timeout Timer
-function startServerTimeout(gameId) {
-    if (!activeServers[gameId]) return;
-
-    activeServers[gameId].timeoutId = setTimeout(() => {
-        console.log(LOG_PREFIX + `Timeout: 30 Minuten abgelaufen für Game ${gameId}.`);
-        stopMinecraftServer(gameId, "30-Minuten-Limit erreicht");
-    }, MINECRAFT_TIMEOUT_MS);
-}
-
-export { setupSocket, activeServers, io_instance };

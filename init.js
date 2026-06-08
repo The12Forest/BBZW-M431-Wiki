@@ -5,15 +5,13 @@ import https from 'https';
 import http from 'http';
 import { fileURLToPath } from 'url';
 import { Server } from 'socket.io';
-import { gameGroups, setupSocket } from './Backend/routes/ws/index.js';
+import { setupMcSocket } from './Backend/routes/ws/mc-server.js';
 import log from './Backend/function/log.js';
-const console = { log: log('InitRouter') };
 
-
+const console = { log: log('Server') };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 
 const app = express();
 const httpPort = process.env.PORT || 80;
@@ -21,46 +19,28 @@ const httpsPort = process.env.HTTPS_PORT || 443;
 
 app.use(express.json());
 
-// Routes
-import { router as adminRouter } from './Backend/routes/admin/index.js';
-import { router as mainRouter } from './Backend/routes/main/index.js';
-import { router as gameRouter } from './Backend/routes/game/index.js';
+// In-process rate limiter — 100 req / 15 min per IP, no external dependency
+const rateLimitStore = new Map();
+app.use((req, res, next) => {
+    const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.ip;
+    const now = Date.now();
+    let entry = rateLimitStore.get(ip);
+    if (!entry || now > entry.resetAt) entry = { count: 0, resetAt: now + 15 * 60 * 1000 };
+    entry.count++;
+    rateLimitStore.set(ip, entry);
+    if (entry.count > 100) return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    next();
+});
 
-
-app.use("/api/game", gameRouter)
-app.use("/api/admin", adminRouter)
-app.use("/api/main", mainRouter)
-//app.use("/api/task", tasksRouter)
-//app.use("/api/user", userRouter)
-//app.use("/api/storage", adminRouter)
-//app.use("/api/login", loginRouter)
-//app.use("/api/shutdown", shutdownRouter)
-
-
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'Frontend/Player-Join/index.html')));
-app.get('/player', (req, res) => res.sendFile(path.join(__dirname, 'Frontend/player.html')));
-app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'Frontend/Admin/index.html')));
-app.get('/lobby', (req, res) => res.sendFile(path.join(__dirname, 'Frontend/lobby.html')));
-
-// Static assets
-app.use('/admin', express.static(path.join(__dirname, 'Frontend/Admin')));
+// Static assets served from Frontend/
 app.use('/', express.static(path.join(__dirname, 'Frontend')));
 
-// Catch all
-app.use("", (req, res) => { res.redirect('/') })
-//app.get("*", (req, res) => { res.redirect('/') });
+// Fallback — serve index.html for any unmatched route
+app.use((req, res) => {
+    res.sendFile(path.join(__dirname, 'Frontend/index.html'));
+});
 
-// HTTP → HTTPS redirect
-/*
-http.createServer((req, res) => {
-    const host = (req.headers.host || 'localhost').replace(/:\d+$/, ':' + httpsPort);
-    if ((req.headers.host || 'localhost').startsWith('127.0.0.1') || (req.headers.host || 'localhost').startsWith('localhost') || req.socket.remoteAddress === '::1') {
-        return;
-    }
-    res.writeHead(301, { Location: 'https://' + host + req.url });
-    res.end();
-}).listen(httpPort, () => console.log(`HTTP redirect on port ${httpPort}`));
-*/
+// HTTP server
 http.createServer(app).listen(httpPort, () => {
     console.log(`HTTP server on port ${httpPort}`);
 });
@@ -70,25 +50,8 @@ const privateKey = fs.readFileSync('./Cert/key.pem', 'utf8');
 const certificate = fs.readFileSync('./Cert/cert.pem', 'utf8');
 const httpsServer = https.createServer({ key: privateKey, cert: certificate }, app);
 const io = new Server(httpsServer);
-
-// Socket
-setupSocket(io);
-
+setupMcSocket(io);
 httpsServer.listen(httpsPort, () => console.log(`HTTPS server on port ${httpsPort}`));
 
-// Logging
-/*
-const origLog = console.log;
-if (!fs.existsSync('./LOG')) fs.mkdirSync('./LOG', { recursive: true });
-console.log = function (message, ...rest) {
-    const now = new Date();
-    const ts = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}.${String(now.getMilliseconds()).padStart(3, '0')}`;
-    const day = now.toISOString().slice(0, 10);
-    const formattedLine = `${ts}   ${message}`;
-    fs.appendFileSync(`./LOG/LOG_${day}.log`, formattedLine + ' ' + rest.join(' ') + '\n');
-    origLog(formattedLine, ...rest);
-};
-*/
-
-console.log('Wiki Server started');
+console.log('OneBlock Wiki server started');
 export default app;

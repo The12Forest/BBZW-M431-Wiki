@@ -1,3 +1,247 @@
-2026-06-01 06:12:42.022    InitRouter:     Wiki Server started
-2026-06-01 06:12:42.024    InitRouter:     HTTP server on port 80
-2026-06-01 06:12:42.024    InitRouter:     HTTPS server on port 443
+2026-06-01 07:01:10.799    Server:         OneBlock Wiki server started
+2026-06-01 07:01:37.375    Server:         OneBlock Wiki server started
+2026-06-01 07:01:56.560    Server:         OneBlock Wiki server started
+2026-06-01 07:01:56.561    Server:         HTTP server on port 80
+2026-06-01 07:01:56.561    Server:         HTTPS server on port 443
+2026-06-01 07:06:36.727    Server:         OneBlock Wiki server started
+2026-06-01 07:06:36.729    Server:         HTTP server on port 80
+2026-06-01 07:06:36.730    Server:         HTTPS server on port 443
+2026-06-01 07:07:39.223    Server:         OneBlock Wiki server started
+2026-06-01 07:07:39.227    Server:         HTTP server on port 3000
+2026-06-01 07:07:39.227    Server:         HTTPS server on port 3443
+2026-06-01 07:11:37.934    Server:         OneBlock Wiki server started
+2026-06-01 07:11:37.935    Server:         HTTP server on port 80
+2026-06-01 07:11:37.935    Server:         HTTPS server on port 443
+2026-06-01 07:11:43.773    Server:         OneBlock Wiki server started
+2026-06-01 07:11:43.775    Server:         HTTP server on port 3000
+2026-06-01 07:11:43.775    Server:         HTTPS server on port 3443
+2026-06-01 07:13:21.980    MinecraftSocket Starting server for session b719dlfz6 on port 25565...
+2026-06-01 07:13:21.981    MinecraftSocket Using server jar: paper-1.21.11-132.jar
+2026-06-01 07:13:52.062    Server:         OneBlock Wiki server started
+2026-06-01 07:13:52.068    Server:         HTTP server on port 80
+2026-06-01 07:13:52.068    Server:         HTTPS server on port 443
+2026-06-01 07:14:07.037    Server:         OneBlock Wiki server started
+2026-06-01 07:14:07.043    Server:         HTTP server on port 80
+2026-06-01 07:14:07.043    Server:         HTTPS server on port 443
+2026-06-01 07:14:07.486    Server:         OneBlock Wiki server started
+2026-06-01 07:14:07.490    Server:         HTTP server on port 80
+2026-06-01 07:14:07.493    Server:         HTTPS server on port 443
+2026-06-01 07:16:55.246    Server:         OneBlock Wiki server started
+2026-06-01 07:16:55.247    Server:         HTTP server on port 80
+2026-06-01 07:16:55.248    Server:         HTTPS server on port 443
+2026-06-01 07:17:06.754    Server:         OneBlock Wiki server started
+2026-06-01 07:17:06.756    Server:         HTTP server on port 80
+2026-06-01 07:17:06.756    Server:         HTTPS server on port 443
+2026-06-01 07:20:08.639    MinecraftSocket Starting server for session sx0pl41r1 on port 25570...
+2026-06-01 07:20:08.640    MinecraftSocket Using server jar: paper-1.21.11-132.jar
+2026-06-01 07:20:21.491    MinecraftSocket Server sx0pl41r1 (port 25570) closed. Code: 0
+2026-06-01 07:21:13.683    Server:         OneBlock Wiki server started
+2026-06-01 07:21:13.684    Server:         HTTP server on port 80
+2026-06-01 07:21:13.684    Server:         HTTPS server on port 443
+2026-06-01 07:21:20.975    Server:         OneBlock Wiki server started
+2026-06-01 07:21:20.976    Server:         HTTP server on port 80
+2026-06-01 07:21:20.977    Server:         HTTPS server on port 443
+2026-06-01 07:21:28.187    Server:         OneBlock Wiki server started
+2026-06-01 07:21:28.188    Server:         HTTP server on port 80
+2026-06-01 07:21:28.188    Server:         HTTPS server on port 443
+2026-06-01 07:21:35.093    Server:         OneBlock Wiki server started
+2026-06-01 07:21:35.097    Server:         HTTP server on port 80
+2026-06-01 07:21:35.097    Server:         HTTPS server on port 443
+2026-06-01 07:21:44.423    MinecraftSocket Starting server for session aqzm6db1v on port 25570...
+2026-06-01 07:21:44.424    MinecraftSocket Using server jar: paper-1.21.11-132.jar, world dir: /home/bbzwsorsee/BBZW-M431-Wiki/Servers/worlds/aqzm6db1v
+2026-06-01 07:21:58.269    Server:         OneBlock Wiki server started
+2026-06-01 07:21:58.271    Server:         HTTP server on port 80
+2026-06-01 07:21:58.272    Server:         HTTPS server on port 443
+2026-06-01 07:24:35.115    Server:         OneBlock Wiki server started
+2026-06-01 07:24:35.118    Server:         HTTP server on port 80
+2026-06-01 07:24:35.119    Server:         HTTPS server on port 443
+2026-06-01 07:25:45.859    Server:         OneBlock Wiki server started
+2026-06-01 07:25:45.861    Server:         HTTP server on port 80
+2026-06-01 07:25:45.862    Server:         HTTPS server on port 443
+2026-06-01 07:26:43.065    Server:         OneBlock Wiki server started
+2026-06-01 07:26:43.067    Server:         HTTP server on port 80
+2026-06-01 07:26:43.067    Server:         HTTPS server on port 443
+2026-06-01 07:26:56.840    MinecraftSocket Starting server for session cajh0ex5k on port 25570...
+2026-06-01 07:26:56.842    MinecraftSocket Using server jar: paper-1.21.11-132.jar, world dir: /home/bbzwsorsee/BBZW-M431-Wiki/Servers/worlds/cajh0ex5k
+2026-06-01 07:27:12.957    Server:         OneBlock Wiki server started
+2026-06-01 07:27:12.961    Server:         HTTP server on port 80
+2026-06-01 07:27:12.962    Server:         HTTPS server on port 443
+2026-06-01 07:28:09.173    Server:         OneBlock Wiki server started
+2026-06-01 07:28:09.178    Server:         HTTP server on port 80
+2026-06-01 07:28:09.178    Server:         HTTPS server on port 443
+2026-06-01 07:28:18.789    Server:         OneBlock Wiki server started
+2026-06-01 07:28:18.791    Server:         HTTP server on port 80
+2026-06-01 07:28:18.791    Server:         HTTPS server on port 443
+2026-06-01 07:28:25.914    Server:         OneBlock Wiki server started
+2026-06-01 07:28:25.920    Server:         HTTP server on port 80
+2026-06-01 07:28:25.920    Server:         HTTPS server on port 443
+2026-06-01 07:30:00.645    Server:         OneBlock Wiki server started
+2026-06-01 07:30:00.646    Server:         HTTP server on port 80
+2026-06-01 07:30:00.647    Server:         HTTPS server on port 443
+2026-06-01 07:30:31.044    Server:         OneBlock Wiki server started
+2026-06-01 07:30:31.046    Server:         HTTP server on port 80
+2026-06-01 07:30:31.048    Server:         HTTPS server on port 443
+2026-06-01 07:31:37.994    MinecraftSocket Starting server for session evtvy72gw on port 25570...
+2026-06-01 07:31:37.995    MinecraftSocket Using server jar: paper-1.21.11-132.jar, world dir: /home/bbzwsorsee/BBZW-M431-Wiki/Servers/worlds/evtvy72gw
+2026-06-01 07:31:51.795    Server:         OneBlock Wiki server started
+2026-06-01 07:31:51.796    Server:         HTTP server on port 80
+2026-06-01 07:31:51.797    Server:         HTTPS server on port 443
+2026-06-01 07:32:08.928    Server:         OneBlock Wiki server started
+2026-06-01 07:32:08.930    Server:         HTTP server on port 80
+2026-06-01 07:32:08.931    Server:         HTTPS server on port 443
+2026-06-01 07:33:03.539    Server:         OneBlock Wiki server started
+2026-06-01 07:33:03.542    Server:         HTTP server on port 80
+2026-06-01 07:33:03.543    Server:         HTTPS server on port 443
+2026-06-01 07:35:50.912    Server:         OneBlock Wiki server started
+2026-06-01 07:35:50.913    Server:         HTTP server on port 80
+2026-06-01 07:35:50.913    Server:         HTTPS server on port 443
+2026-06-01 07:35:55.972    Server:         OneBlock Wiki server started
+2026-06-01 07:35:55.974    Server:         HTTP server on port 80
+2026-06-01 07:35:55.974    Server:         HTTPS server on port 443
+2026-06-01 07:36:01.476    Server:         OneBlock Wiki server started
+2026-06-01 07:36:01.478    Server:         HTTP server on port 80
+2026-06-01 07:36:01.478    Server:         HTTPS server on port 443
+2026-06-01 07:36:07.962    Server:         OneBlock Wiki server started
+2026-06-01 07:36:07.963    Server:         HTTP server on port 80
+2026-06-01 07:36:07.964    Server:         HTTPS server on port 443
+2026-06-01 07:36:44.924    Server:         OneBlock Wiki server started
+2026-06-01 07:36:44.926    Server:         HTTP server on port 80
+2026-06-01 07:36:44.927    Server:         HTTPS server on port 443
+2026-06-01 07:37:18.509    MinecraftSocket Starting server for session 22lo5xzqt on port 25570...
+2026-06-01 07:37:18.510    MinecraftSocket Using server jar: paper-1.21.11-132.jar, world dir: /home/bbzwsorsee/BBZW-M431-Wiki/Servers/worlds/22lo5xzqt
+2026-06-01 07:37:32.186    Server:         OneBlock Wiki server started
+2026-06-01 07:37:32.188    Server:         HTTP server on port 80
+2026-06-01 07:37:32.189    Server:         HTTPS server on port 443
+2026-06-01 07:37:33.093    MinecraftSocket Starting server for session 22lo5xzqt on port 25570...
+2026-06-01 07:37:33.098    MinecraftSocket Using server jar: paper-1.21.11-132.jar, world dir: /home/bbzwsorsee/BBZW-M431-Wiki/Servers/worlds/22lo5xzqt
+2026-06-01 07:37:48.611    MinecraftSocket Server 22lo5xzqt (port 25570) closed. Code: 0
+2026-06-01 07:37:49.147    Server:         OneBlock Wiki server started
+2026-06-01 07:37:49.148    Server:         HTTP server on port 80
+2026-06-01 07:37:49.149    Server:         HTTPS server on port 443
+2026-06-01 07:39:49.266    Server:         OneBlock Wiki server started
+2026-06-01 07:39:49.267    Server:         HTTP server on port 80
+2026-06-01 07:39:49.267    Server:         HTTPS server on port 443
+2026-06-01 07:39:54.456    Server:         OneBlock Wiki server started
+2026-06-01 07:39:54.457    Server:         HTTP server on port 80
+2026-06-01 07:39:54.458    Server:         HTTPS server on port 443
+2026-06-01 07:39:58.978    Server:         OneBlock Wiki server started
+2026-06-01 07:39:58.979    Server:         HTTP server on port 80
+2026-06-01 07:39:58.980    Server:         HTTPS server on port 443
+2026-06-01 07:40:04.635    Server:         OneBlock Wiki server started
+2026-06-01 07:40:04.637    Server:         HTTP server on port 80
+2026-06-01 07:40:04.638    Server:         HTTPS server on port 443
+2026-06-01 07:40:09.651    Server:         OneBlock Wiki server started
+2026-06-01 07:40:09.652    Server:         HTTP server on port 80
+2026-06-01 07:40:09.653    Server:         HTTPS server on port 443
+2026-06-01 07:40:20.277    Server:         OneBlock Wiki server started
+2026-06-01 07:40:20.280    Server:         HTTP server on port 80
+2026-06-01 07:40:20.280    Server:         HTTPS server on port 443
+2026-06-01 07:40:58.949    Server:         OneBlock Wiki server started
+2026-06-01 07:40:58.951    Server:         HTTP server on port 80
+2026-06-01 07:40:58.953    Server:         HTTPS server on port 443
+2026-06-01 07:41:13.277    MinecraftSocket Starting server for session 22lo5xzqt on port 25570...
+2026-06-01 07:41:13.278    MinecraftSocket Using server jar: paper-1.21.11-132.jar, world dir: /home/bbzwsorsee/BBZW-M431-Wiki/Servers/worlds/22lo5xzqt
+2026-06-01 07:41:27.647    Server:         OneBlock Wiki server started
+2026-06-01 07:41:27.649    Server:         HTTP server on port 80
+2026-06-01 07:41:27.650    Server:         HTTPS server on port 443
+2026-06-01 07:41:28.981    MinecraftSocket Starting server for session 22lo5xzqt on port 25570...
+2026-06-01 07:41:28.983    MinecraftSocket Using server jar: paper-1.21.11-132.jar, world dir: /home/bbzwsorsee/BBZW-M431-Wiki/Servers/worlds/22lo5xzqt
+2026-06-01 07:41:38.289    Server:         OneBlock Wiki server started
+2026-06-01 07:41:38.294    Server:         HTTP server on port 80
+2026-06-01 07:41:38.296    Server:         HTTPS server on port 443
+2026-06-01 07:41:39.289    MinecraftSocket Starting server for session 22lo5xzqt on port 25570...
+2026-06-01 07:41:39.290    MinecraftSocket Using server jar: paper-1.21.11-132.jar, world dir: /home/bbzwsorsee/BBZW-M431-Wiki/Servers/worlds/22lo5xzqt
+2026-06-01 07:42:05.394    MinecraftSocket Server 22lo5xzqt (port 25570) closed. Code: 0
+2026-06-01 07:42:05.750    Server:         OneBlock Wiki server started
+2026-06-01 07:42:05.752    Server:         HTTP server on port 80
+2026-06-01 07:42:05.752    Server:         HTTPS server on port 443
+2026-06-01 07:42:25.699    Server:         OneBlock Wiki server started
+2026-06-01 07:42:25.701    Server:         HTTP server on port 80
+2026-06-01 07:42:25.701    Server:         HTTPS server on port 443
+2026-06-01 07:44:57.959    Server:         OneBlock Wiki server started
+2026-06-01 07:44:57.960    Server:         HTTP server on port 80
+2026-06-01 07:44:57.961    Server:         HTTPS server on port 443
+2026-06-01 07:45:05.314    Server:         OneBlock Wiki server started
+2026-06-01 07:45:05.316    Server:         HTTP server on port 80
+2026-06-01 07:45:05.316    Server:         HTTPS server on port 443
+2026-06-01 07:45:15.089    Server:         OneBlock Wiki server started
+2026-06-01 07:45:15.091    Server:         HTTP server on port 80
+2026-06-01 07:45:15.092    Server:         HTTPS server on port 443
+2026-06-01 07:48:24.720    Server:         OneBlock Wiki server started
+2026-06-01 07:48:24.722    Server:         HTTP server on port 80
+2026-06-01 07:48:24.723    Server:         HTTPS server on port 443
+2026-06-01 07:48:30.412    Server:         OneBlock Wiki server started
+2026-06-01 07:48:30.413    Server:         HTTP server on port 80
+2026-06-01 07:48:30.414    Server:         HTTPS server on port 443
+2026-06-01 07:48:34.109    Server:         OneBlock Wiki server started
+2026-06-01 07:48:34.112    Server:         HTTP server on port 80
+2026-06-01 07:48:34.112    Server:         HTTPS server on port 443
+2026-06-01 07:48:41.289    Server:         OneBlock Wiki server started
+2026-06-01 07:48:41.291    Server:         HTTP server on port 80
+2026-06-01 07:48:41.292    Server:         HTTPS server on port 443
+2026-06-01 07:49:58.699    Server:         OneBlock Wiki server started
+2026-06-01 07:49:58.701    Server:         HTTP server on port 80
+2026-06-01 07:49:58.702    Server:         HTTPS server on port 443
+2026-06-01 07:50:02.454    MinecraftSocket Starting session 22lo5xzqt on port 25570 (jar: paper-1.21.11-132.jar)
+2026-06-01 07:50:17.393    Server:         OneBlock Wiki server started
+2026-06-01 07:50:17.395    Server:         HTTP server on port 80
+2026-06-01 07:50:17.396    Server:         HTTPS server on port 443
+2026-06-01 07:50:18.515    MinecraftSocket Starting session 22lo5xzqt on port 25570 (jar: paper-1.21.11-132.jar)
+2026-06-01 07:50:36.687    MinecraftSocket Session 22lo5xzqt closed (code 0)
+2026-06-01 07:50:37.097    Server:         OneBlock Wiki server started
+2026-06-01 07:50:37.099    Server:         HTTP server on port 80
+2026-06-01 07:50:37.099    Server:         HTTPS server on port 443
+2026-06-01 07:50:41.262    Server:         OneBlock Wiki server started
+2026-06-01 07:50:41.264    Server:         HTTP server on port 80
+2026-06-01 07:50:41.264    Server:         HTTPS server on port 443
+2026-06-01 07:51:26.597    Server:         OneBlock Wiki server started
+2026-06-01 07:51:26.598    Server:         HTTP server on port 80
+2026-06-01 07:51:26.598    Server:         HTTPS server on port 443
+2026-06-01 07:51:31.985    Server:         OneBlock Wiki server started
+2026-06-01 07:51:31.987    Server:         HTTP server on port 80
+2026-06-01 07:51:31.988    Server:         HTTPS server on port 443
+2026-06-01 07:51:37.416    Server:         OneBlock Wiki server started
+2026-06-01 07:51:37.418    Server:         HTTP server on port 80
+2026-06-01 07:51:37.418    Server:         HTTPS server on port 443
+2026-06-01 07:51:43.514    Server:         OneBlock Wiki server started
+2026-06-01 07:51:43.517    Server:         HTTP server on port 80
+2026-06-01 07:51:43.519    Server:         HTTPS server on port 443
+2026-06-01 07:53:02.198    MinecraftSocket Starting session 22lo5xzqt on port 25570 (jar: paper-1.21.11-132.jar)
+2026-06-01 07:53:04.551    MinecraftSocket Socket disconnected (client namespace disconnect), grace 5000ms for session 22lo5xzqt
+2026-06-01 07:53:09.556    MinecraftSocket Stopping session 22lo5xzqt: No clients after grace period (client namespace disconnect)
+2026-06-01 07:53:16.614    Server:         OneBlock Wiki server started
+2026-06-01 07:53:16.616    Server:         HTTP server on port 80
+2026-06-01 07:53:16.617    Server:         HTTPS server on port 443
+2026-06-01 07:54:45.326    Server:         OneBlock Wiki server started
+2026-06-01 07:54:45.328    Server:         HTTP server on port 80
+2026-06-01 07:54:45.328    Server:         HTTPS server on port 443
+2026-06-01 07:54:55.350    Server:         OneBlock Wiki server started
+2026-06-01 07:54:55.354    Server:         HTTP server on port 80
+2026-06-01 07:54:55.354    Server:         HTTPS server on port 443
+2026-06-01 07:55:00.350    Server:         OneBlock Wiki server started
+2026-06-01 07:55:00.351    Server:         HTTP server on port 80
+2026-06-01 07:55:00.352    Server:         HTTPS server on port 443
+2026-06-01 07:55:06.432    Server:         OneBlock Wiki server started
+2026-06-01 07:55:06.433    Server:         HTTP server on port 3000
+2026-06-01 07:55:06.433    Server:         HTTPS server on port 3443
+2026-06-01 07:59:22.285    Server:         OneBlock Wiki server started
+2026-06-01 07:59:22.286    Server:         HTTP server on port 3000
+2026-06-01 07:59:22.286    Server:         HTTPS server on port 3443
+2026-06-01 08:01:08.207    Server:         OneBlock Wiki server started
+2026-06-01 08:01:08.209    Server:         HTTP server on port 80
+2026-06-01 08:01:08.210    Server:         HTTPS server on port 443
+2026-06-01 08:01:23.066    MCServer:       Starting session e6gwyijqu on port 25570 (paper-1.21.11-132.jar)
+2026-06-01 08:01:36.984    Server:         OneBlock Wiki server started
+2026-06-01 08:01:36.987    Server:         HTTP server on port 80
+2026-06-01 08:01:36.987    Server:         HTTPS server on port 443
+2026-06-01 08:04:05.645    Server:         OneBlock Wiki server started
+2026-06-01 08:04:05.647    Server:         HTTP server on port 80
+2026-06-01 08:04:05.649    Server:         HTTPS server on port 443
+2026-06-01 08:04:26.434    Server:         OneBlock Wiki server started
+2026-06-01 08:04:26.435    Server:         HTTP server on port 80
+2026-06-01 08:04:26.435    Server:         HTTPS server on port 443
+2026-06-01 08:04:41.811    MCServer:       Starting session bl5m73uc8 on port 25570 (paper-1.21.11-132.jar)
+2026-06-01 08:05:49.590    MCServer:       Auto-opping Climb1er
+2026-06-01 08:08:29.909    MCServer:       Session bl5m73uc8 closed (code 0)
+2026-06-01 08:08:35.309    MCServer:       Starting session bl5m73uc8 on port 25570 (paper-1.21.11-132.jar)
+2026-06-01 08:11:44.292    MCServer:       Session bl5m73uc8 closed (code 0)
