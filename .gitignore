@@ -37,3 +37,13 @@ ehthumbs.db
 
 
 ./~$*.xlsx
+
+# Minecraft server JAR (53 MB binary, too large for git)
+paper-*.jar
+
+# Temporary Minecraft server instances
+/tmp/mc-*/
+
+# Lock files
+package-lock.json
+yarn.lock

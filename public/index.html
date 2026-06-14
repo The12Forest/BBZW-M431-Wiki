@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OneBlock: Plugin Wiki</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="brand">OneBlock<span class="accent">.</span>Wiki</div>
+    <nav class="site-nav">
+        <a href="#overview">Overview</a>
+        <a href="#install">Install</a>
+        <a href="#phases">Phases</a>
+        <a href="#commands">Commands</a>
+        <a href="#config">Config</a>
+        <a href="#try">Try it</a>
+    </nav>
+</header>
+
+<main>
+
+<section id="overview">
+    <h1>OneBlock <span class="badge">Plugin</span></h1>
+    <p class="lead">A self-contained OneBlock survival experience for any Paper, Spigot, or Purpur server.</p>
+
+    <div class="meta-tags">
+        <span class="tag green">Paper 1.21.x</span>
+        <span class="tag green">Spigot</span>
+        <span class="tag green">Purpur</span>
+        <span class="tag blue">Open Source</span>
+    </div>
+
+    <p>OneBlock lets admins turn any block on the server into a OneBlock, a single block that regenerates every time it's broken, each time pulling a new block (and sometimes a mob) from a level-specific table. Break it enough times and the OneBlock advances to the next level, unlocking new themed drops all the way from "Podzol &amp; melon" up to "The end?" at level 28, after which it can loop back to an Infinity stage.</p>
+    <p>Everything is tracked server-side in a small SQLite database via HikariCP, including location, current level, and break progress per OneBlock, so nothing is lost on restart. The whole experience is configured through a single YAML file, requires no client-side mods, and is built to stay lightweight even with many OneBlocks active across the server (and across worlds, with optional Multiverse-Core support).</p>
+
+    <h2>Features</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>Unlimited OneBlocks</h3>
+            <p>Turn any block at any coordinate into a OneBlock; there's no cap on how many can exist on your server.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Dynamic Progression</h3>
+            <p>Each OneBlock evolves the more it's broken, climbing through up to 28 themed levels that spawn new and more valuable blocks (and mobs) as it goes.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Persistent Data</h3>
+            <p>Location, level, and break progress for every OneBlock are stored in a database via HikariCP, so nothing is lost across restarts.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Griefing Protection</h3>
+            <p>OneBlocks are explosion-proof, safe from creepers, TNT, and other griefers trying to destroy them.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Multiverse Support</h3>
+            <p>Works flawlessly alongside Multiverse-Core, so OneBlocks can live in their own dedicated worlds.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Lightweight</h3>
+            <p>Optimised for performance: runs smoothly in the background without impacting server tick rate.</p>
+        </div>
+    </div>
+
+    <h2>Compatibility</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Minecraft Version</th>
+                <th>Server Software</th>
+                <th>Optional Dependency</th>
+                <th>Permission Node</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1.21.x</td>
+                <td>Paper</td>
+                <td>Multiverse-Core</td>
+                <td><code>OneBlock.Admin</code></td>
+            </tr>
+            <tr>
+                <td>1.21.x</td>
+                <td>Spigot</td>
+                <td>Multiverse-Core</td>
+                <td><code>OneBlock.Admin</code></td>
+            </tr>
+            <tr>
+                <td>1.21.x</td>
+                <td>Purpur</td>
+                <td>Multiverse-Core</td>
+                <td><code>OneBlock.Admin</code></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section id="install">
+    <h2>Installation</h2>
+    <h1 style="font-size: 24px;">Getting Started</h1>
+
+    <p><strong>Requirements:</strong></p>
+    <ul>
+        <li>Paper, Spigot, or Purpur 1.21.x</li>
+        <li>Java 21 or newer</li>
+        <li>OP / administrator access on the server</li>
+    </ul>
+
+    <ol class="steps">
+        <li>
+            <div>
+                <h3>Download</h3>
+                <p>Grab the latest <code>OneBlock-1.1.3.jar</code> release from the plugin's distribution page.</p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <h3>Place in plugins/</h3>
+                <p>Copy the JAR file into your server's <code>plugins/</code> directory.</p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <h3>Restart server</h3>
+                <p>Fully restart the server (a <code>/reload</code> is not sufficient) so the plugin can register correctly.</p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <h3>Configure</h3>
+                <p>Open <code>plugins/OneBlock/config.yml</code> and adjust levels, drops, and mobs to your liking.</p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <h3>Create your first OneBlock</h3>
+                <p>Run <code>/oneblock set &lt;x&gt; &lt;y&gt; &lt;z&gt;</code> with the absolute coordinates of the block you want to convert into a OneBlock.</p>
+            </div>
+        </li>
+    </ol>
+
+    <div class="callout">
+        <p><strong>Tip:</strong> Always perform a full server restart after installing or updating OneBlock, since a simple <code>/reload</code> can leave the plugin in an inconsistent state.</p>
+    </div>
+</section>
+
+<section id="phases">
+    <h2>Progression Phases</h2>
+    <h1 style="font-size: 24px;">How Levels Work</h1>
+    <p>Every OneBlock tracks its own break counter (<code>level-size</code>) and current level. Each time a player breaks it, the plugin rolls a random block (and sometimes a mob) from that level's tables and places/spawns it. Once enough breaks have accumulated for the current level, the OneBlock advances to the next one, unlocking a new theme, new blocks, and new mobs. The table below reflects the plugin's bundled default <code>config.yml</code> (<code>Max_Level: 28</code>, <code>ThenComesInfinity: true</code>).</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Level</th>
+                <th>Theme</th>
+                <th>Example Drops</th>
+                <th>Size</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>Podzol &amp; melon</td><td>Podzol, Grass Block, Melon</td><td>16</td></tr>
+            <tr><td>2</td><td>Forest</td><td>Birch Log, Oak Log, Oak Leaves</td><td>32</td></tr>
+            <tr><td>3</td><td>Little cave</td><td>Stone, Coal Ore, Gravel</td><td>64</td></tr>
+            <tr><td>4</td><td>Deposits of rocky rocks</td><td>Granite, Diorite, Andesite</td><td>40</td></tr>
+            <tr><td>5</td><td>Little desert</td><td>Sand, Sandstone, Cactus</td><td>32</td></tr>
+            <tr><td>6</td><td>Ore deposit</td><td>Iron Ore, Coarse Dirt, Copper Ore</td><td>32</td></tr>
+            <tr><td>7</td><td>The first chest</td><td>Mossy Cobblestone, White Terracotta, Orange Terracotta</td><td>64</td></tr>
+            <tr><td>8</td><td>Deep forest</td><td>Spruce Log, Dark Oak Log, Spruce Leaves</td><td>100</td></tr>
+            <tr><td>9</td><td>Mine</td><td>Stone, Coal Ore, Gold Ore</td><td>64</td></tr>
+            <tr><td>10</td><td>Snow?</td><td>Snow Block, Packed Ice, Iron Ore</td><td>40</td></tr>
+            <tr><td>11</td><td>Red desert?</td><td>Red Sand, Red Sandstone, Clay</td><td>32</td></tr>
+            <tr><td>12</td><td>Acacia &amp; mushrooms</td><td>Acacia Log, Brown Mushroom Block, Pumpkin</td><td>64</td></tr>
+            <tr><td>13</td><td>Sea</td><td>Prismarine Bricks, Sea Lantern, Dark Prismarine</td><td>32</td></tr>
+            <tr><td>14</td><td>Am I rich?</td><td>Diamond Ore, Emerald Ore, Chiseled Sandstone</td><td>16</td></tr>
+            <tr><td>15</td><td>Mangrove swamp</td><td>Mangrove Leaves, Mud, Bee Nest</td><td>32</td></tr>
+            <tr><td>16</td><td>Obs...</td><td>Obsidian, Carved Pumpkin, Cut Sandstone</td><td>64</td></tr>
+            <tr><td>17</td><td>Hell!?</td><td>Netherrack, Glowstone, Soul Sand</td><td>32</td></tr>
+            <tr><td>18</td><td>Deep Dark</td><td>Sculk, Sculk Sensor, Sculk Shrieker</td><td>16</td></tr>
+            <tr><td>19</td><td>Infernal terracotta?</td><td>Nether Bricks, Nether Quartz Ore, Green Terracotta</td><td>32</td></tr>
+            <tr><td>20</td><td>Is that quartz?</td><td>Nether Quartz Ore, Netherrack, Nether Bricks</td><td>40</td></tr>
+            <tr><td>21</td><td>Never mine...</td><td>Prismarine, Amethyst Block, Crimson Nylium</td><td>20</td></tr>
+            <tr><td>22</td><td>Never...</td><td>Netherrack, Crimson Stem</td><td>40</td></tr>
+            <tr><td>23</td><td>Ne...</td><td>Warped Stem, Nether Gold Ore, Oxidized Copper</td><td>32</td></tr>
+            <tr><td>24</td><td>Ancient City</td><td>Deepslate Bricks, Sculk Sensor, Redstone Lamp</td><td>64</td></tr>
+            <tr><td>25</td><td>-</td><td>Crimson Hyphae, Warped Hyphae, Cracked Nether Bricks</td><td>20</td></tr>
+            <tr><td>26</td><td>Deep crying</td><td>Shroomlight, Crying Obsidian, Blackstone</td><td>32</td></tr>
+            <tr><td>27</td><td>-</td><td>Netherite Block, Ancient Debris, Polished Blackstone</td><td>10</td></tr>
+            <tr><td>28</td><td>The end?</td><td>End Stone, Obsidian, Carved Pumpkin</td><td>32</td></tr>
+            <tr><td>∞ (0)</td><td>Infinity</td><td>Randomised mix of all blocks from levels 1–28</td><td>64</td></tr>
+        </tbody>
+    </table>
+
+    <div class="callout">
+        <p>Level names, block pools, mob pools, progress-bar colours, and break-counts shown above are <strong>fully customisable</strong> per level through <code>config.yml</code>; this table reflects the plugin's bundled default configuration only.</p>
+    </div>
+</section>
+
+<section id="commands">
+    <h2>Commands &amp; Permissions</h2>
+    <h1 style="font-size: 24px;">Command Reference</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Command</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>/oneblock set &lt;x&gt; &lt;y&gt; &lt;z&gt;</code></td><td>Turns the block at the given absolute coordinates into a OneBlock. Alias: <code>add</code>.</td></tr>
+            <tr><td><code>/oneblock delete &lt;x&gt; &lt;y&gt; &lt;z&gt;</code></td><td>Removes the OneBlock at the given absolute coordinates. Alias: <code>remove</code>.</td></tr>
+            <tr><td><code>/oneblock deletebyid &lt;id&gt;</code></td><td>Removes a OneBlock by its database ID.</td></tr>
+            <tr><td><code>/oneblock deleteAllOnebLocks</code></td><td>Removes every OneBlock currently registered on the server.</td></tr>
+            <tr><td><code>/oneblock list</code></td><td>Lists every registered OneBlock with its ID, world, coordinates, level, and progress.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Permissions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Node</th>
+                <th>Description</th>
+                <th>Default</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>OneBlock.Admin</code></td><td>Required to use the <code>/oneblock</code> command and any of its subcommands.</td><td>OP</td></tr>
+        </tbody>
+    </table>
+
+    <div class="callout warning">
+        <p><strong>Warning:</strong> <code>/oneblock deleteAllOnebLocks</code> is irreversible and will wipe every OneBlock, including its level/progress data, from the server's database in one go. Use with extreme caution.</p>
+    </div>
+</section>
+
+<section id="config">
+    <h2>Configuration</h2>
+    <h1 style="font-size: 24px;">config.yml</h1>
+
+    <p>The configuration file is located at:</p>
+    <pre><code>plugins/OneBlock/config.yml</code></pre>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><code>Max_Level</code></td><td>The highest level number defined in the config: the last "real" level before infinity (level <code>'0'</code>) takes over.</td></tr>
+            <tr><td><code>ThenComesInfinity</code></td><td>If <code>true</code>, every level past <code>Max_Level</code> reuses level <code>'0'</code> forever; if <code>false</code>, progression loops back to level <code>'1'</code> instead.</td></tr>
+            <tr><td><code>'N'.level-name</code></td><td>Display name shown to players while their OneBlock is on level <code>N</code> (use <code>'0'</code> for the infinity level).</td></tr>
+            <tr><td><code>'N'.progress-bar-color</code></td><td>Colour of the level's progress indicator, e.g. <code>GREEN</code>.</td></tr>
+            <tr><td><code>'N'.level-size</code></td><td>Number of block breaks required to complete level <code>N</code>.</td></tr>
+            <tr><td><code>'N'.blocks</code></td><td>List of block types that can be placed while a OneBlock is on level <code>N</code>.</td></tr>
+            <tr><td><code>'N'.mobs</code></td><td>List of mobs that can spawn while a OneBlock is on level <code>N</code>; can be left empty (<code>[]</code>).</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Example</h2>
+    <pre><code>Max_Level: 28
+ThenComesInfinity: true
+
+'1':
+  level-name: "Level: 1 - Podzol &amp; melon"
+  progress-bar-color: GREEN
+  level-size: 16
+  blocks:
+    - PODZOL
+    - GRASS_BLOCK
+    - MELON
+  mobs:
+    - ZOMBIE
+    - SPIDER
+
+'0':
+  level-name: "Infinity"
+  progress-bar-color: GREEN
+  level-size: 64
+  blocks:
+    - GRASS_BLOCK
+    - STONE
+    - OBSIDIAN
+    - END_STONE
+  mobs: []
+</code></pre>
+
+    <div class="callout">
+        <p>Block and mob identifiers must match valid Bukkit <code>Material</code> and <code>EntityType</code> enum names. Consult the official <a href="https://hub.spigotmc.org/javadocs/bukkit/" target="_blank" rel="noopener">Bukkit JavaDocs</a> for the full list of valid values.</p>
+    </div>
+</section>
+
+<section id="try">
+    <h2>Live Demo</h2>
+    <h1 style="font-size: 24px;">Try OneBlock Right Now</h1>
+    <p class="lead">Spin up a real, isolated Paper server with OneBlock pre-installed, directly from your browser.</p>
+
+    <div class="callout">
+        <p>Clicking <strong>Start Server</strong> launches a fresh Paper 1.21.x instance in a fully isolated sandbox just for you. It comes pre-configured with OneBlock and is automatically destroyed when you leave or after a 2-hour limit. To keep things fair, a maximum of <strong>4 demo servers</strong> can run at the same time. If the limit is reached, please try again in a few minutes.</p>
+    </div>
+
+    <div class="launcher-bar">
+        <button id="btn-start" class="btn btn-green">▶ Start Server</button>
+        <button id="btn-stop"  class="btn btn-red" disabled>■ Stop Server</button>
+        <span class="launcher-status">
+            <span id="status-dot"  class="status-dot idle"></span>
+            <span id="status-text">Idle</span>
+        </span>
+        <span id="countdown" class="countdown hidden"></span>
+    </div>
+
+    <div id="server-info" class="server-info hidden">
+        <span class="server-info-label">Connect in Minecraft:</span>
+        <code id="server-address"></code>
+        <span class="server-info-sub">Java Edition → Multiplayer → Direct Connect</span>
+    </div>
+
+    <pre id="log-output" class="log-output"></pre>
+</section>
+
+</main>
+
+</body>
+</html>
