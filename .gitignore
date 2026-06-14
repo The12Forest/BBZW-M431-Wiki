@@ -39,7 +39,7 @@ ehthumbs.db
 ./~$*.xlsx
 
 # Minecraft server JAR (53 MB binary, too large for git)
-paper-*.jar
+# paper-*.jar
 
 # Temporary Minecraft server instances
 /tmp/mc-*/
